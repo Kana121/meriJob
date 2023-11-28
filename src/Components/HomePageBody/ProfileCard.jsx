@@ -3,9 +3,13 @@ import styles from "./ProfileCard.module.css";
 import { Avatar, Progress } from "@chakra-ui/react";
 import "https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js";
 import "https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js";
-
+import { Link, useNavigate } from "react-router-dom";
 const ProfileCard = () => {
 	let userName = JSON.parse(localStorage.getItem("nameUser"));
+	const navigate = useNavigate();
+	const handleClick = () => {
+	navigate("/employement");
+}
 
 	return (
 		<div className={styles.profileDiv}>
@@ -27,10 +31,10 @@ const ProfileCard = () => {
 			</div>
 			<div className={styles.details}>
 				<p>01 Details Missing</p>
-				<a href="#">ADD DETAILS</a>
+				<Link to="/employement">ADD DETAILS</Link>
 			</div>
 			<div className={styles.updateProfile}>
-				<button>UPDATE PROFILE</button>
+			<button onClick={handleClick}>UPDATE PROFILE</button>
 			</div>
 			<div className={styles.profilePerformance}>
 				<p>

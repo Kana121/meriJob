@@ -1,11 +1,11 @@
 import { Box, Image, Link, Text } from "@chakra-ui/react";
 import React from "react";
-import styles from "./NaukriFastForward.module.css"
+import styles from "./MeriJobFastForward.module.css"
 
-const NaukriFastForward = () => {
+const MeriJobFastForward = () => {
   return (
     <Box w="100%" h="430px" mt={"6"} p="6" bg={'#fff'}  boxShadow="rgba(0, 0, 0, 0.24) 0px 3px 8px" className={styles.fastforward}>
-      <Image h={'10'} src="https://static.naukimg.com/s/4/123/i/ffLogo.png" />
+      
       <Text mt={'6'} fontWeight='bold'>MeriJob Services you might be interested in</Text>
       <Text mt={'6'} fontWeight='bold'>Be a Priority Applicant</Text>
       <Text w='100%' fontSize={'small'} color='gray.500' fontWeight={'bold'}>Increase your chances of getting shortlisted for the applied jobs and receiving calls from recruiters.</Text>
@@ -18,4 +18,4 @@ const NaukriFastForward = () => {
   );
 };
 
-export default NaukriFastForward;
+export default MeriJobFastForward;

@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useRef, useState } from "react";
 import styles from "./Body.module.css";
-import NaukriFastForward from "./NaukriFastForward";
+import MeriJobFastForward from "./MeriJobFastForward";
 import NaukriPulse from "./MeriJobPulse";
 import ProfileCard from "./ProfileCard";
 import Qrscanner from "./Qrscanner";
@@ -367,7 +367,7 @@ const Body = () => {
             <div className={styles.box2}>
               <ProfileCard />
               <Qrscanner />
-              <NaukriFastForward />
+              <MeriJobFastForward />
               <Box
                 mt={"6"}
                 w="100%"
