@@ -104,7 +104,7 @@ const Education = () => {
                 <FormLabel htmlFor="qualification">
                   Highest Qualification
                 </FormLabel>
-                <Stack spacing={5} direction="row">
+                <Stack spacing={5} direction="row">g
                   <Checkbox
                     colorScheme="green"
                     defaultChecked
