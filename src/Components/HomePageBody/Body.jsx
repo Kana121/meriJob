@@ -2,9 +2,9 @@ import {
   Avatar,
   Box,
   Button,
-  extendTheme,
+  
   Flex,
-  Heading,
+  
   Link,
   Stack,
   Text,
@@ -12,13 +12,14 @@ import {
 import React, { useRef, useState } from "react";
 import styles from "./Body.module.css";
 import MeriJobFastForward from "./MeriJobFastForward";
-import NaukriPulse from "./MeriJobPulse";
+
 import ProfileCard from "./ProfileCard";
 import Qrscanner from "./Qrscanner";
 import Jobs from "./Jobs";
 import WithSubnavigation from "../HomePageNavbar/Navbar";
 import Footer from "../HomePageFooter/Footer";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import MeriJobPulse from "./MeriJobPulse";
 
 const Body = () => {
   const ref = useRef();
@@ -50,7 +51,7 @@ const Body = () => {
                 </div>
                 {/* Components */}
               </div>
-              <NaukriPulse />
+              <MeriJobPulse />
               <Box mt={"6"}>
                 <Text fontSize={"xl"} color="gray.500" fontWeight="bold">
                   Jobs

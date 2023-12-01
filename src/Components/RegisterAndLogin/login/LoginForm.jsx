@@ -39,7 +39,8 @@ const LoginForm = () => {
 			const response = await axios.post('http://localhost:8081/login', loginCreds);
 			// console.log(response.data);
 			const userData = response.data;
-	
+			const { srno } = userData;
+			sessionStorage.setItem('srno',srno);
 			// Dispatch a different action for successful login
 			dispatch(loginSuccess(userData));
 	

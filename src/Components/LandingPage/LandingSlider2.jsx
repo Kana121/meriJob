@@ -10,7 +10,7 @@ const LandingSlider2 = () => {
     let decreasecount=()=>{
         setcount(count-1)
     }
-    if(count==0){
+    if(count===0){
         arr=[
             {id:1,text1:"Full Stack Developer",text2:"22.1k+ Jobs"},
             {id:2 ,text1:"Mobile / App Developer",text2:"1.6k+ Jobs"},
@@ -19,7 +19,7 @@ const LandingSlider2 = () => {
             {id:5,text1:"Engineering Manager",text2:"704 Jobs"},
             {id:6,text1:"Technical Lead",text2:"12.1k+ Jobs"}
         ]
-    }else if(count==1){
+    }else if(count===1){
         
         arr=[
             {id:1,text1:"Automation Test Engi..",text2:"22.1k+ Jobs"},

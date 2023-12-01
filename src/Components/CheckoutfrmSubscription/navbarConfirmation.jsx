@@ -19,7 +19,7 @@ const Navbaronfirmation = () => {
 				<div>1. SHOPPING CART {`   `}</div>
 				<div>
 					<span>
-						<i class="fa-solid fa-check"></i>
+						<i className="fa-solid fa-check"></i>
 					</span>{" "}
 					2. LOGIN {`   `}
 				</div>
@@ -29,10 +29,7 @@ const Navbaronfirmation = () => {
 
 			<div className={style.navbar3}>
 				<div className={style.navbarimgdiv}>
-					<img
-						src="https://static.naukimg.com/s/7/123/i/shield.206b2da7.png"
-						alt=""
-					/>
+					<h2>MeriJob</h2>
 				</div>
 				<div className={style.navbar4}>
 					<p>Buy Safely with MeriJob.com</p>

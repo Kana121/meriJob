@@ -7,11 +7,11 @@ import styles from "./ProfileCard.module.css";
 const ProfileCard = () => {
   const [userData, setUserData] = useState({});
   const navigate = useNavigate();
-
+ const uid=sessionStorage.getItem('srno');
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8081/get-user-profile/102");
+        const response = await axios.get(`http://localhost:8081/get-user-profile/${uid}`);
         if (response.status === 200) {
           setUserData(response.data);
         }
@@ -21,7 +21,7 @@ const ProfileCard = () => {
     };
 
     fetchData();
-  }, []);
+  }, [uid]);
 
   const handleClick = () => {
     navigate("/profile-update");

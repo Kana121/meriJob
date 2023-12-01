@@ -33,7 +33,7 @@ const Empbody = ({ hideall }) => {
             <span>eHire</span>
           </div>
           <button className={style.body1btn}>Know More</button>
-          <img src="https://leverageedublog.s3.ap-south-1.amazonaws.com/blog/wp-content/uploads/2020/01/27185345/English-Literature-Courses.jpg" />
+          {/* <img src="https://leverageedublog.s3.ap-south-1.amazonaws.com/blog/wp-content/uploads/2020/01/27185345/English-Literature-Courses.jpg" /> */}
         </div>
         <div>
           <div className={style.empform1}>
