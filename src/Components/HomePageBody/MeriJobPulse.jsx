@@ -2,8 +2,8 @@ import { StarIcon } from '@chakra-ui/icons'
 import { Box, Flex, Select, Text, Image, Icon, Button, extendTheme } from '@chakra-ui/react'
 import React, { useState } from 'react'
 // import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-import 'https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js';
-import 'https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js';
+// import 'https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js';
+// import 'https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js';
 import styles from './MeriJobPulse.module.css'
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';

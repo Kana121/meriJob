@@ -19,6 +19,7 @@ import Job from "./Components/JobsRecomndation/Job";
 import SuccessFullapply from "./Components/JobsRecomndation/SuccessFullapply";
 import RequiredAuth from "./hoc/RequiredAuth";
 import ResumePage from "./Components/ResumePage/ResumePage";
+import UpdateProfile from "./Components/HomePageBody/UpdateProfile";
 
 // use StyleSheet.module for css
 
@@ -36,6 +37,7 @@ function App() {
 				<Route path="/register" element={<RegisterPage />} />
 				<Route path="/otp" element={<OtpPage />} />
 				<Route path="/employement" element={<Employement />} />
+				<Route path="/profile-update" element={<UpdateProfile/>}/>
 				<Route path="/education" element={<Education />} />
 				{/* REGISTRATION AND LOGIN */}
 				<Route

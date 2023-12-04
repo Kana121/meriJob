@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./ProfileCard.module.css";
 import { Avatar, Progress } from "@chakra-ui/react";
-import "https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js";
-import "https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js";
+// import "https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js";
+// import "https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js";
 import { Link, useNavigate } from "react-router-dom";
 const ProfileCard = () => {
 	let userName = JSON.parse(localStorage.getItem("nameUser"));
