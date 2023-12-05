@@ -1,0 +1,45 @@
+.FaqSec{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.Faq_grid{
+    display: grid;
+    grid-template-areas: "a a";
+    row-gap: 4px;
+    grid-template-columns: 48% 48%;
+    column-gap: 4%;
+    width: 100%;
+}
+.faq_ques{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:2px 20px;
+    background-color: #f4f4f4cc;
+}
+.Faq_Heading{
+    text-align: left;
+    font-size: 32px;
+}
+@media screen and (max-width:999px) and (min-width:700px){
+    .faq_ques{
+        text-align: left;
+    }
+}
+@media screen and (max-width:700px){
+    .Faq_grid{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .faq_ques{
+        width:92%;
+        text-align: left;
+    }
+    .Faq_Heading{
+        padding-left: 10px;
+    }
+
+}
