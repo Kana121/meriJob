@@ -1,4 +1,3 @@
-// CompanyLoginForm.js
 import React, { useState } from 'react';
 import {
   Box,
@@ -10,10 +9,13 @@ import {
   FormErrorMessage,
   Alert,
   AlertIcon,
+  Container,
 } from '@chakra-ui/react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const CompanyLoginForm = () => {
+  const navigate = useNavigate(); // Initialize useNavigate
   const [companyLogin, setCompanyLogin] = useState({
     contactEmail: '',
     password: '',
@@ -48,10 +50,13 @@ const CompanyLoginForm = () => {
   const handleLogin = async () => {
     if (validateForm()) {
       try {
-        const response = await axios.post('http://localhost:8080/company-login', companyLogin);
+        const response = await axios.post('http://localhost:8081/company-login', companyLogin);
         console.log('Server Response:', response.data);
         setIsLoginSuccess(true);
         setLoginError(null);
+        
+        // Use navigate to redirect upon successful login
+        navigate('/');
       } catch (error) {
         console.error('Error:', error.message);
         setIsLoginSuccess(false);
@@ -61,38 +66,42 @@ const CompanyLoginForm = () => {
   };
 
   return (
-    <Box p={4}>
-      <Heading as="h2" size="xl" mb={4}>
-        Company Login
-      </Heading>
-      {loginError && (
-        <Alert status="error" mb={4}>
-          <AlertIcon />
-          {loginError}
-        </Alert>
-      )}
-      {isLoginSuccess && (
-        <Alert status="success" mb={4}>
-          <AlertIcon />
-          Login successful!
-        </Alert>
-      )}
-      <FormControl mb={4} isInvalid={!!formErrors.contactEmail}>
-        <FormLabel>Contact Email</FormLabel>
-        <Input type="email" name="contactEmail" value={companyLogin.contactEmail} onChange={handleChange} />
-        <FormErrorMessage>{formErrors.contactEmail}</FormErrorMessage>
-      </FormControl>
+    <Container>
+      <Box p={4}>
+        <Heading as="h2" size="xl" mb={4}>
+          Company Login
+        </Heading>
+        {loginError && (
+          <Alert status="error" mb={4}>
+            <AlertIcon />
+            {loginError}
+          </Alert>
+        )}
+        {isLoginSuccess && (
+          <Alert status="success" mb={4}>
+            <AlertIcon />
+            Login successful!
+          </Alert>
+        )}
+        <form onSubmit={(e) => e.preventDefault()}>
+          <FormControl mb={4} isInvalid={!!formErrors.contactEmail}>
+            <FormLabel>Contact Email</FormLabel>
+            <Input type="email" name="contactEmail" value={companyLogin.contactEmail} onChange={handleChange} />
+            <FormErrorMessage>{formErrors.contactEmail}</FormErrorMessage>
+          </FormControl>
 
-      <FormControl mb={4} isInvalid={!!formErrors.password}>
-        <FormLabel>Password</FormLabel>
-        <Input type="password" name="password" value={companyLogin.password} onChange={handleChange} />
-        <FormErrorMessage>{formErrors.password}</FormErrorMessage>
-      </FormControl>
+          <FormControl mb={4} isInvalid={!!formErrors.password}>
+            <FormLabel>Password</FormLabel>
+            <Input type="password" name="password" value={companyLogin.password} onChange={handleChange} />
+            <FormErrorMessage>{formErrors.password}</FormErrorMessage>
+          </FormControl>
 
-      <Button type="submit" colorScheme="teal" onClick={handleLogin}>
-        Login
-      </Button>
-    </Box>
+          <Button type="submit" colorScheme="teal" onClick={handleLogin}>
+            Login
+          </Button>
+        </form>
+      </Box>
+    </Container>
   );
 };
 

@@ -29,7 +29,7 @@ const Empnav = () => {
         navigate("/",{replace:true})
     }
     const navigateToLogin = () => {
-        navigate("/login");
+        navigate("/employer-login");
       };
     
       const navigateToRegister = () => {
