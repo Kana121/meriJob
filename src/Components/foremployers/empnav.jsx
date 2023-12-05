@@ -5,6 +5,7 @@ import Empbody from "./empbody";
 import style from "./empnav.module.css"
 import Empnumber from "./Empnumber";
 import Empproduct from "./Empproduct";
+import { Text } from "@chakra-ui/react";
 
 const Empnav = () => {
     const [isproduct, setisproduct] = useState(false)
@@ -27,16 +28,20 @@ const Empnav = () => {
         event.preventDefault();
         navigate("/",{replace:true})
     }
+    const navigateToLogin = () => {
+        navigate("/login");
+      };
+    
+      const navigateToRegister = () => {
+        navigate("/employer-registration");
+      };
   return (
     <div>
         
         <div className={style.empnav}>
             <div className={style.subempnav1}>
-                <img
-                    src="https://m.economictimes.com/thumb/msid-68302566,width-1200,height-900,resizemode-4,imgsize-45453/untitled-7.jpg"
-                    alt=""
-                    onClick={navigatetohome}
-                />
+            <Text onClick={navigatetohome}
+                >Duniya Job</Text>
                 <p onMouseEnter={hideall}>Home</p>
                 <div className={style.subnav1} onMouseEnter={showprod}>
                     <p>Products</p>
@@ -64,9 +69,10 @@ const Empnav = () => {
 
                     </div>
                     <div className={style.subnav3}>
-                        <p>Job Seeker</p>
-                        <i class="fa-solid fa-share-from-square"></i>
-                    </div>
+              <p onClick={navigateToLogin}>Login</p>
+              <i className="fa-solid fa-share-from-square"></i>
+              <p onClick={navigateToRegister}>Register</p>
+            </div>
                 </div>
             </div>
         </div>

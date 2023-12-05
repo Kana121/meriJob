@@ -21,6 +21,8 @@ import RequiredAuth from "./hoc/RequiredAuth";
 import ResumePage from "./Components/ResumePage/ResumePage";
 import UpdateProfile from "./Components/HomePageBody/UpdateProfile";
 import Employment from "./Components/RegisterAndLogin/employement/Employment";
+import CompanyRegisterForm from "./Components/foremployers/CompanyRegisterForm";
+import CompanyLoginForm from "./Components/foremployers/CompanyLoginForm";
 
 // use StyleSheet.module for css
 
@@ -52,6 +54,10 @@ function App() {
 				/>
 				<Route path="/" element={<LandingNavbar />}></Route>
 				<Route path="/employer" element={<Empnav />}></Route>
+				<Route path="/employer-registration" element={<CompanyRegisterForm />}></Route>
+				
+				<Route path="/employer-login" element={<CompanyLoginForm />}></Route>
+
 				<Route path="/recruter" element={<Recruters />}></Route>
 				<Route path="/topcompany" element={<Topcompany />}></Route>
 				<Route path="/resume" element={<ResumePage />}></Route>
