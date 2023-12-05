@@ -20,8 +20,7 @@ const UpdateProfile = () => {
   // Function to fetch the existing profile data
   const fetchProfileData = async () => {
     try {
-      const srno = 203;
-      //  sessionStorage.getItem('srno');
+      const srno = sessionStorage.getItem('srno');
       if (srno) {
         const response = await axios.get(`http://localhost:8081/profile-update/${srno}`);
         if (response.status === 200) {
@@ -40,8 +39,7 @@ const UpdateProfile = () => {
   // Function to update the profile data
   const updateProfile = async () => {
     try {
-      const srno = 203;
-      // sessionStorage.getItem('srno');
+      const srno = sessionStorage.getItem('srno');
       const response = await axios.put(`http://localhost:8081/profile-update/${srno}`, profile);
       if (response.status === 200) {
         setSubmissionStatus('success');
@@ -95,7 +93,7 @@ const UpdateProfile = () => {
         fontWeight="extrabold" >Profile Information</Text>
 
 
-      <FormControl formEncType ="multipart/form-data" >
+      <FormControl formEncType="multipart/form-data" >
         <FormLabel >Full Name:</FormLabel>
         <Input
           type="text"

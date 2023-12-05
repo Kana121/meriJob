@@ -10,6 +10,7 @@ import style from "./landingnav.module.css"
 import Resources from './Resources'
 import Services from './Services'
 import Footer from "../HomePageFooter/Footer"
+import { background } from "@chakra-ui/react"
 
 const LandingNavbar = () => {
     const [isjob, setisjob] = useState(false)
@@ -93,12 +94,12 @@ const LandingNavbar = () => {
     <div className={style.lnavbar}>
         
         <div className={style.lnav1}>
-        <span className={`${style.logo} ${style.lphover}`} onMouseEnter={changealltohide} onClick={navigatetohome}>MeriJob</span>
+        <span className={`${style.logo} ${style.lphover}`} onMouseEnter={changealltohide} onClick={navigatetohome}>Duniya Job</span>
             <div className={style.sublnav1}>
                 <p onMouseEnter={changejobtodisplay} className={style.lphover}>Jobs</p>
                 <p onMouseEnter={changecompanytodisplay} className={style.lphover}>Companies</p>
                 <p onMouseEnter={changeservicestodisplay} className={style.lphover}>Services</p>
-                <p onMouseEnter={changeresourcestodisplay} className={style.lphover}>Resources</p>
+                
             </div>
         </div>
         <div className={style.sublnav2}  onMouseEnter={changealltohide}>
@@ -109,7 +110,7 @@ const LandingNavbar = () => {
             </div>
             <div className={style.lphover} onMouseEnter={changeemployertodisplay} onClick={navigatetoemployer}>
                For employers
-               <i class="fa-solid fa-angle-down"></i>
+               <i  class="fa-solid fa-angle-down"></i>
             </div>
         </div>
 

@@ -16,11 +16,7 @@
     padding: 25px;
     background-color: rgb(243, 230, 225);
 }
-.lbody{
-    
-    /* background-color: rgb(228, 242, 248); */
-   
-}
+
 .lb1>h1{
     font-size: 35px;
     font-weight: bold;
@@ -58,8 +54,10 @@
     background-color: rgb(69,126,255);
     padding: 8px 16px;
     color: white;
+   margin-left: 0px;
     font-size: 18px;
     border-radius: 20px;
+    justify-items: left;
 }
 .lbbtn2{
     background-color: orangered;

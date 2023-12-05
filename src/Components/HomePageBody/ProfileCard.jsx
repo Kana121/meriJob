@@ -47,7 +47,7 @@ const ProfileCard = () => {
       </div>
       <div className={styles.details}>
         <p>{userData.detailsMissing} Details Missing</p>
-        <Link to="/employment">ADD DETAILS</Link>
+        <Link to="/employement">ADD DETAILS</Link>
       </div>
       <div className={styles.updateProfile}>
         <button onClick={handleClick}>UPDATE PROFILE</button>

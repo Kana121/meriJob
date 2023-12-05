@@ -9,7 +9,7 @@
 }
 .lphover{
     font-weight: bold;
-    color: gray;
+    color: whitesmoke;
 }
 .lnavbar{
     display: flex;
@@ -21,7 +21,9 @@
     position: fixed;
     
     z-index: 999;
-    background-color: whitesmoke;
+    background: rgb(2,0,36);
+    background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 0%, rgba(0,212,255,1) 100%);
+    
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
     
     
@@ -37,16 +39,28 @@
     border-radius: 20px;
     border: 2px solid skyblue;
     padding: 5px 20px;
-    color: skyblue;
+    color: white;
     font-weight: bold;
+}
+.loginbutton:hover{
+    color: black;
+    border: 2px solid orangered;
+    background-color: orangered;
 }
 .registerbutton{
     border-radius: 20px;
     /* border: 2px solid blue; */
     padding: 5px 20px;
-    color: white;
+    color: black;
     font-weight: bold;
     background-color: orangered;
+}
+.registerbutton:hover{
+    
+    border: 2px solid skyblue;
+    background-color: rgba(135, 207, 235, 0);
+    color: white;
+    
 }
 .btncarrier{
     display: flex;

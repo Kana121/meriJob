@@ -8,7 +8,7 @@ import Confirmation from "./Components/CheckoutfrmSubscription/Confirmation";
 import LoginPage from "../src/Components/RegisterAndLogin/login/LoginPage";
 import RegisterPage from "../src/Components/RegisterAndLogin/register/RegisterPage";
 import OtpPage from "../src/Components/RegisterAndLogin/otp/OtpPage";
-import Employement from "../src/Components/RegisterAndLogin/employement/Employement";
+// import Employement from "../src/Components/RegisterAndLogin/employement/Employement";
 import Education from "../src/Components/RegisterAndLogin/education/Education";
 import Body from "./Components/HomePageBody/Body";
 import LandingNavbar from "./Components/LandingPage/LandingNavbar";
@@ -20,6 +20,7 @@ import SuccessFullapply from "./Components/JobsRecomndation/SuccessFullapply";
 import RequiredAuth from "./hoc/RequiredAuth";
 import ResumePage from "./Components/ResumePage/ResumePage";
 import UpdateProfile from "./Components/HomePageBody/UpdateProfile";
+import Employment from "./Components/RegisterAndLogin/employement/Employment";
 
 // use StyleSheet.module for css
 
@@ -36,7 +37,8 @@ function App() {
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/register" element={<RegisterPage />} />
 				<Route path="/otp" element={<OtpPage />} />
-				<Route path="/employement" element={<Employement />} />
+				{/* <Route path="/employement" element={<Employement />} /> */}
+				<Route path="/employement" element={<Employment/>}/>
 				<Route path="/profile-update" element={<UpdateProfile/>}/>
 				<Route path="/education" element={<Education />} />
 				{/* REGISTRATION AND LOGIN */}

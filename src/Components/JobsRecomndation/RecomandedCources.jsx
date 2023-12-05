@@ -8,24 +8,24 @@ const RecomandedCources = () => {
       info: "Become proficient in building end-to-end web applications handling all the areas of the tech-stack",
       info2:
         "Target emerging tech job roles as AWS Cloud Engineer, Cloud Devops Engineer, Data Analyst, Business.",
-      img: "https://w10.naukri.com/mailers/2022/naukri-learning/feb/10feb/gll-120.jpg",
+      // img: "https://w10.naukri.com/mailers/2022/naukri-learning/feb/10feb/gll-120.jpg",
     },
     {
       crcname: "Master's Certification Program in Full Stack Web Development",
       info: "The Master's Certification Program in Full Stack Web Development is a 8-month long Job-Leading Progr...",
       info2:
         "This Masters program from Skill-Lync offers a guided online program consisting of courses that will ...",
-      img: "https://w10.naukri.com/mailers/2022/naukri-learning/upload-01march/logox-slider-skill-lync.png",
+      // img: "https://w10.naukri.com/mailers/2022/naukri-learning/upload-01march/logox-slider-skill-lync.png",
     },
   ];
 
   return (
     <div>
       <div>
-        <img
+        {/* <img
           src="https://static.naukimg.com/s/7/105/i/naukri-learning_1.2e49db3a.png"
           alt="cor"
-        />
+        /> */}
       </div>
       <p className={style.cource_hed_name} size="md">
         Recommended courses for you

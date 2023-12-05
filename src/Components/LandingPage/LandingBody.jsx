@@ -1,10 +1,6 @@
 import React from 'react'
 import style from "./landingbody.module.css"
-import Landingslider1 from './Landingslider1'
-import LandingSlider2 from './LandingSlider2'
-import Sublandbody from './Sublandbody'
-
-
+import JobList from './JobList'
 const LandingBody = ({changealltohide}) => {
  
   return (
@@ -33,33 +29,13 @@ const LandingBody = ({changealltohide}) => {
             </div>
         </div>
 
-        <div className={style.lb2}>
-            <div className={style.lb2grid}>
-              <img src="https://static.naukimg.com/s/0/0/i/homepage-register/airtel-logo.png" alt="" />
-              <img src="https://static.naukimg.com/s/0/0/i/homepage-register/amazon-large-logo.png" alt="" />
-              <img src="https://static.naukimg.com/s/0/0/i/homepage-register/flipkart-logo.png" alt="" />
-              <img src="https://static.naukimg.com/s/0/0/i/homepage-register/myntra-large-logo.png" alt="" />
-              <img src="https://static.naukimg.com/s/0/0/i/homepage-register/paytm-logo.png" alt="" />
-              <img src="https://static.naukimg.com/s/0/0/i/homepage-register/swiggy-logo.png" alt="" />
-            </div>
-            <div>
-              <p className={style.lbh3}>Increase your chances of hiring by almost 60%</p>
-              <p className={style.lbgray}>More than 25000 companies are hiring by directly</p>
-              <p className={style.lbgray}>searching for candidates on MeriJob! <span className={style.lbblue}>See how</span></p>
-            </div>
+        {/* <div className={style.lb2}>
+           
             <button className={style.lbbtn2}>Register Now</button>
-        </div>
-        <Landingslider1/>
-        <div className={style.sl2}>
-          <div>
-            <img src="https://static.naukimg.com/s/0/0/i/role-collection.png" alt="" />
-            <p className={style.large}>Discover jobs across popular roles</p>
-            <p className={style.med}>Select a role and we'll show you relevant jobs for it!</p>
-          </div>
-          <LandingSlider2/>
-        </div>
+        </div> */}
         
-       
+        {/* <Landingslider1/> */}
+        <JobList/>
     </div>
   )
 }
