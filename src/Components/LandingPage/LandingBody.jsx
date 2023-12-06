@@ -1,10 +1,14 @@
 import React from 'react'
 import style from "./landingbody.module.css"
 import JobList from './JobList'
+import LandingPageBanner from './LandingPageBanner'
+import Faqs from '../FAQs/Faqs'
+
 const LandingBody = ({changealltohide}) => {
  
   return (
     <div onMouseEnter={changealltohide} className={style.lbody}>
+      <LandingPageBanner/>
         <div className={style.lb1}>
             <h1>Find your dream job now with Meri Job</h1>
             <p>5 lakh+ jobs for you to explore</p>
@@ -36,6 +40,7 @@ const LandingBody = ({changealltohide}) => {
         
         {/* <Landingslider1/> */}
         <JobList/>
+        <Faqs/>
     </div>
   )
 }

@@ -1,9 +1,9 @@
 .LPBanner{
-    min-height: 500px;
+    min-height: 100vh;
     display: flex;
     align-items: center;
+    background: url('../Assets/LPBanner1.png');
     justify-content: center;
-    background: url(../Assets/LPBanner1.png);
     background-repeat: no-repeat;
     background-size:cover;
     background-position: top;
