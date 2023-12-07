@@ -16,8 +16,10 @@ import {
   Container,
 } from '@chakra-ui/react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const CompanyRegisterForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     companyName: '',
     password: '',
@@ -50,6 +52,9 @@ const CompanyRegisterForm = () => {
       industry: '',
     });
     setFormErrors({});
+    if (isSuccess) {
+      navigate('/employer-otp'); // Replace '/otp-page' with the actual path you want to redirect to
+    }
   };
 
   const handleChange = (e) => {
@@ -211,7 +216,7 @@ const CompanyRegisterForm = () => {
 
               <AlertDialogFooter>
                 <Button colorScheme="teal" onClick={onClose}>
-                  Close
+                  Ok
                 </Button>
               </AlertDialogFooter>
             </AlertDialogContent>

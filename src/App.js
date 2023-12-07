@@ -23,6 +23,7 @@ import UpdateProfile from "./Components/HomePageBody/UpdateProfile";
 import Employment from "./Components/RegisterAndLogin/employement/Employment";
 import CompanyRegisterForm from "./Components/foremployers/CompanyRegisterForm";
 import CompanyLoginForm from "./Components/foremployers/CompanyLoginForm";
+import CompanyOtp from "./Components/foremployers/CompanyOtp";
 
 // use StyleSheet.module for css
 
@@ -55,6 +56,7 @@ function App() {
 				<Route path="/" element={<LandingNavbar />}></Route>
 				<Route path="/employer" element={<Empnav />}></Route>
 				<Route path="/employer-registration" element={<CompanyRegisterForm />}></Route>
+				<Route path="/employer-otp" element={<CompanyOtp />}></Route>
 				
 				<Route path="/employer-login" element={<CompanyLoginForm />}></Route>
 
