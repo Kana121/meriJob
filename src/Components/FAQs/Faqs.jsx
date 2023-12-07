@@ -9,7 +9,6 @@ import {
   } from "react-geocode";
 
 const Faqs = () => {
-    var x = "random testting for sync";
     useEffect(() => {
         const handlePageClick = (event) => {
             if (!(event.target.closest('button[data-specific-attribute="ArrowButton"]'))) {
