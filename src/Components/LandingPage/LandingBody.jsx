@@ -3,8 +3,10 @@ import style from "./landingbody.module.css"
 import JobList from './JobList'
 import LandingPageBanner from './LandingPageBanner'
 import Faqs from '../FAQs/Faqs'
+import statesAndCitiesIndia from  '../Assets/SatesCities'
 
 const LandingBody = ({changealltohide}) => {
+  
  
   return (
     <div onMouseEnter={changealltohide} className={style.lbody}>
