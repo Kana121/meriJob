@@ -51,6 +51,21 @@
     .faq_ques{
         text-align: left;
     }
+    .faqLeft, .faqRight{
+        height:auto;
+        width:100%
+    }
+    .Faq_grid{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        row-gap: 10px;
+    }
+    .faqLeft, .faqRight{
+        height:auto;
+        width:100%
+    }
 }
 @media screen and (max-width:700px){
     .Faq_grid{
@@ -58,6 +73,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        row-gap: 10px;
     }
     .faq_ques{
         width:92%;
@@ -65,6 +81,10 @@
     }
     .Faq_Heading{
         padding-left: 10px;
+    }
+    .faqLeft, .faqRight{
+        height:auto;
+        width:100%
     }
 
 }

@@ -7,38 +7,132 @@ import Countries from '../Assets/countries.json'
 import States from '../Assets/states.json'
 import Cities from '../Assets/cities.json'
 
-
-
-
 const LandingBody = ({changealltohide}) => {
   const countries = Countries;
   const states = States;
   const cities = Cities;
-  const [selectedCountry, setSelectedCountry] = useState('');
-  const [filteredStates, setFilteredStates] = useState([]);
-  const [inputText, setInputText] = useState('');
-  
+  var [selectedCountry, setSelectedCountry] = useState('');
+  var [inputText, setInputText] = useState('');
+  var [selectedState, setSelectedState] = useState('');
+  var [selectedCities, setSelectedCities] = useState([]);
+  var [filteredCities, setFilteredCities] = useState([]);
+  var [filteredStates, setFilteredStates] = useState([]);
+      
   const handleCountryChange = (event) => {
     const selectedValue = event.target.value;
     setSelectedCountry(selectedValue);
     setFilteredStates([]); // Reset filtered states when country changes
   };
   const handleInputTextChange = (event) => {
-    const text = event.target.value;
-    setInputText(text);
-
-    // Filter states based on the selected country and input text
-    const countryStates = states.filter(state => state.country_name === selectedCountry);
-    const filteredStates = countryStates.filter(state =>
-      state.name.toLowerCase().startsWith(text.toLowerCase())
-    );
-    setFilteredStates(filteredStates);
-    ToggleSuggestionListDisplay();    
+    let text = event.key;
+    // Check for backspace key
+    if (event.keyCode === 8) {
+      // Handle backspace logic here
+      
+      if(inputText.length<=0){
+        return;
+      }
+      else{
+        text = inputText.slice(0, -1);
+        setInputText(text);
+        return;
+      } 
+    }
+    else if(/^[a-zA-Z]+$/.test(text)){
+      setInputText(text);
+      if(selectedState.length===0){
+        // Filter states based on the selected country and input text
+        const countryStates = states.filter(state => state.country_name === selectedCountry);
+        const filteredStates = countryStates.filter(state =>
+          state.name.toLowerCase().startsWith(text.toLowerCase())
+        );
+        setFilteredStates(filteredStates);
+        setSelectedState(''); // Reset selected state when input text changes
+        setFilteredCities([]);
+        ToggleStateSuggestionListDisplay(text); 
+      }  
+      else{
+        let newfilteredCities = filteredCities.filter((city) => !selectedCities.includes(city.name));
+        setFilteredCities(newfilteredCities);
+        ToggleCitySuggestionListDisplay();
+      }
+    }
+    else{
+      return;
+    }
+        
   };
-  function ToggleSuggestionListDisplay() {
+  const handleStateClick = (stateName) => {
     const stateSuggestionList = document.getElementById("stateSuggestionList");
+    // Update the input text with the selected state and add a comma
+    setInputText(`${stateName} `);
+    setSelectedState(stateName);
+    // Filter cities based on the selected state
+    const selectedStateCities = cities.filter(
+      (city) => city.state_name === stateName && city.country_name === selectedCountry
+    );
+    setFilteredCities(selectedStateCities);
+    stateSuggestionList.style.display="none";
+    ToggleCitySuggestionListDisplay();
+  };
+  const handleSearchBoxClick = () =>{
+    if(selectedState.length > 0 && selectedCities.length>0){
+      setInputText(`${selectedState} ${selectedCities},`);
+      ToggleCitySuggestionListDisplay();
+    }
+    else if(selectedState.length > 0 && selectedCities.length === 0){
+      ToggleCitySuggestionListDisplay();
+    }
+  }
+  const handleCityClick = (cityName) => {
+    let CityList = document.getElementById("citySuggestionList");
+    let City = [cityName];
+    if(selectedCities.length===0){
+      setSelectedCities(City);
+      setInputText(`${selectedState} ${cityName}`);
+      let newfilteredCities = filteredCities.filter((city) => city.name !==cityName && city.state_name === selectedState);
+      setFilteredCities(newfilteredCities);
+      CityList.style.display="none";
+    }
+    else{
+      let isSelected = selectedCities.includes(cityName);
+      if(isSelected){
+        selectedCities = selectedCities.filter((city) => city !== cityName);
+        setInputText(`${selectedState} ${selectedCities}`)
+        setSelectedCities(selectedCities);
+        let newfilteredCities = filteredCities.filter((city) => !selectedCities.includes(city.name));
+        setFilteredCities(newfilteredCities);
+        CityList.style.display="none";
+      }
+      else{
+        selectedCities = [...selectedCities, cityName];
+        setInputText(`${selectedState} ${selectedCities}`)
+        setSelectedCities(selectedCities);
+        let newfilteredCities = filteredCities.filter((city) => !selectedCities.includes(city.name));
+        setFilteredCities(newfilteredCities);
+        CityList.style.display="none";
+      }
+    }
+  };
+  function ToggleCitySuggestionListDisplay() {
+    const citySuggestionList = document.getElementById("citySuggestionList");
     if(document.getElementById("bxStateSearch").value !==""){
-      if(stateSuggestionList){
+      if(citySuggestionList){
+        citySuggestionList.style.display="block";
+        
+      }
+      else{
+        citySuggestionList.style.display="none";
+      }
+    }
+    else{
+      citySuggestionList.style.display="none";
+    }
+  }
+  function ToggleStateSuggestionListDisplay(text) {
+    const stateSuggestionList = document.getElementById("stateSuggestionList");
+    if(stateSuggestionList){
+      if(text !==""){
         stateSuggestionList.style.display="block";
         
       }
@@ -49,10 +143,7 @@ const LandingBody = ({changealltohide}) => {
     else{
       stateSuggestionList.style.display="none";
     }
-    
   }
-    
-   
   return (
     <div onMouseEnter={changealltohide} className={style.lbody}>
       <LandingPageBanner/>
@@ -86,15 +177,21 @@ const LandingBody = ({changealltohide}) => {
                 ))}
               </select>
               <div id="stateNcity" className={style.stateNcity}>
-              <input type="text" id="bxStateSearch" placeholder='Enter location' className={style.lbinp2} value={inputText} onChange={handleInputTextChange}/>
-              <ul id="stateSuggestionList" className={style.stateSuggestionList}>
-                {filteredStates.map(state => (
-                  <li key={state.id} className={style.listitem}>
-                    {state.name}
-                  </li>
-                ))}
-              </ul>
-              
+                <input type="text" id="bxStateSearch" placeholder='Enter location' onClick={handleSearchBoxClick} className={style.lbinp2} value={inputText} onKeyDown={handleInputTextChange}/>
+                <ul id="stateSuggestionList" className={style.stateSuggestionList}>
+                  {filteredStates.map(state => (
+                    <li key={state.id} className={style.listitem} onClick={() => handleStateClick(state.name)}>
+                      {state.name}
+                    </li>
+                  ))}
+                </ul>       
+                <ul id="citySuggestionList" className={style.stateSuggestionList}>
+                  {filteredCities.map((city) => (
+                    <li key={city.id} className={style.listitem} onClick={() => handleCityClick(city.name)}>
+                      {city.name}
+                    </li>
+                  ))}
+                </ul>
               </div>
               <button className={style.lbbtn1}>Search</button>
             </div>
