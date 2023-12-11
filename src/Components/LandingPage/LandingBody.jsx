@@ -22,6 +22,9 @@ const LandingBody = ({changealltohide}) => {
     const selectedValue = event.target.value;
     setSelectedCountry(selectedValue);
     setFilteredStates([]); // Reset filtered states when country changes
+    let countryStates;
+    countryStates = states.filter(state => state.country_name === selectedValue);// Filter states based on the selected country
+    setFilteredStates(countryStates);
   };
 
   //Handle textinput changes and BackSpace changes
@@ -34,35 +37,42 @@ const LandingBody = ({changealltohide}) => {
       if(selectedCountry.length>0){
         //if we do have selectes state and seleceted cities
         if(selectedState.length > 0 && selectedCities.length > 0){
-          let tempText = inputText;
-          let x = tempText.split(" ");
+          setInputText(inputText.slice(0, -1));
+          let tempText = inputText.slice(0, -1);
+          let x = tempText.split("-");
           x = x[1];
-          if(x.endsWith(",")){
-
+          if(x.includes(",")){
+            let y = x.split(",");
+            y = y.filter(function(item) {return item !== "";});
+            cityFiltering(y[y.length-1]);
           }
           else{
-            let citiesSelected = x.slice(0, -1);
-            citiesSelected = citiesSelected.split(",");
-            let pickedCity = citiesSelected[-1];
-            cityFiltering(pickedCity);
-
-          }
+            setSelectedCities([]);
+            cityFiltering(x);
+          }          
         }
         //if we have only selected state but no cities where selected
         else if(selectedState.length > 0 && selectedCities.length <= 0){
-          text = inputText.slice(0, -1);
-          setInputText(text);
-          let x = text.split(" ");
+          setInputText(inputText.slice(0, -1));
+          let tempText = inputText.slice(0, -1);
+          let x = tempText.split("-");
+          x = x.filter(function(item) {return item!== "";})
           if(x.length>1){
-            let cityHint = x[-1];
+            let cityHint = x[x.length - 1];
             cityFiltering(cityHint);
           }
           else{
-            return;
+            setSelectedState('');
+            setFilteredCities([]);
+            StateFiltering(x[0]);
           }
         }
         // Case where we don't have both selected state and cities
         else if(selectedState.length <= 0 && selectedCities.length <= 0 && inputText === ""){
+          setSelectedState('');
+          setSelectedCities([]);
+          setFilteredCities([]);
+          setInputText('');
           return;
         }
         else{
@@ -70,6 +80,7 @@ const LandingBody = ({changealltohide}) => {
           setInputText(text);
           if(text.length === 0 ){
             setSelectedState('');
+            setFilteredCities([]);
             const stateSuggestionList = document.getElementById("stateSuggestionList");
             stateSuggestionList.style.display='none';
           }
@@ -85,18 +96,23 @@ const LandingBody = ({changealltohide}) => {
     else if(hitKey>=65 && hitKey <= 90){
       if(selectedCountry.length>0){
         if(selectedState.length > 0 && selectedCities.length > 0){
-          text = text + event.key;
-          setInputText(inputText + " " + event.key);
-          cityFiltering(text);
+          text = inputText + event.key;
+          setInputText(text);
+          let x = text.split("-");
+          x = x.filter(function(item) {return item!== "";})
+          x = x[1];
+          let y = x.split(",");
+          y = y.filter(function(item) {
+            return item !== "";
+          });
+          cityFiltering(y[y.length-1]);
         }
         //if we have only selected state but no cities where selected
         else if(selectedState.length > 0 && selectedCities.length <= 0){
           text = inputText +  event.key;
-          let x = text.split(" ");
-          let cityHint = x[1];
+          let x = text.split("-");
           setInputText(text);
-          StateFiltering(selectedState);
-          cityFiltering(cityHint);
+          cityFiltering(x[1]);
         }
         // Case where we don't have both selected state and cities
         else if(selectedState.length <= 0 && selectedCities.length <= 0){
@@ -110,8 +126,7 @@ const LandingBody = ({changealltohide}) => {
       }      
     }
     else if(hitKey === 32){
-      text = inputText + event.key;
-      setInputText(text);
+      return;
     }  
         
   };
@@ -129,10 +144,11 @@ const LandingBody = ({changealltohide}) => {
     let stateCities;
     if(hint.length>0){
       // Filter states based on the selected country and input text
-    stateCities = cities.filter(city => city.state_name === selectedState);
-    filteredCities = stateCities.filter(city =>
-    city.name.toLowerCase().startsWith(hint.toLowerCase()));
-    setFilteredCities(filteredCities);
+      stateCities = cities.filter(city => city.state_name === selectedState);
+      filteredCities = stateCities.filter(city =>
+      city.name.toLowerCase().startsWith(hint.toLowerCase()));
+      setFilteredCities(filteredCities);
+      ToggleCitySuggestionListDisplay();
     }
     else{
       return;
@@ -142,7 +158,7 @@ const LandingBody = ({changealltohide}) => {
   const handleStateClick = (stateName) => {
     const stateSuggestionList = document.getElementById("stateSuggestionList");
     // Update the input text with the selected state and add a comma
-    setInputText(`${stateName} `);
+    setInputText(`${stateName}-`);
     setSelectedState(stateName);
     // Filter cities based on the selected state
     const selectedStateCities = cities.filter(
@@ -154,11 +170,11 @@ const LandingBody = ({changealltohide}) => {
   };
   const handleSearchBoxClick = () =>{
     if(selectedState.length > 0 && selectedCities.length>0){
-      setInputText(`${selectedState} ${selectedCities},`);
+      setInputText(`${selectedState}-${selectedCities},`);
       ToggleCitySuggestionListDisplay();
     }
     else if(selectedState.length > 0 && selectedCities.length === 0){
-      ToggleCitySuggestionListDisplay();
+      setInputText(`${selectedState}-`);
     }
   }
   const handleCityClick = (cityName) => {
@@ -166,27 +182,27 @@ const LandingBody = ({changealltohide}) => {
     let City = [cityName];
     if(selectedCities.length===0){
       setSelectedCities(City);
-      setInputText(`${selectedState} ${cityName}`);
-      let newfilteredCities = filteredCities.filter((city) => city.name !==cityName && city.state_name === selectedState);
-      setFilteredCities(newfilteredCities);
+      setInputText(`${selectedState}-${cityName}`);
+      // let newfilteredCities = filteredCities.filter((city) => city.name !==cityName && city.state_name === selectedState);
+      // setFilteredCities(newfilteredCities);
       CityList.style.display="none";
     }
     else{
       let isSelected = selectedCities.includes(cityName);
       if(isSelected){
         selectedCities = selectedCities.filter((city) => city !== cityName);
-        setInputText(`${selectedState} ${selectedCities}`)
+        setInputText(`${selectedState}-${selectedCities}`)
         setSelectedCities(selectedCities);
-        let newfilteredCities = filteredCities.filter((city) => !selectedCities.includes(city.name));
-        setFilteredCities(newfilteredCities);
+        // let newfilteredCities = filteredCities.filter((city) => !selectedCities.includes(city.name));
+        // setFilteredCities(newfilteredCities);
         CityList.style.display="none";
       }
       else{
         selectedCities = [...selectedCities, cityName];
-        setInputText(`${selectedState} ${selectedCities}`)
+        setInputText(`${selectedState}-${selectedCities}`)
         setSelectedCities(selectedCities);
-        let newfilteredCities = filteredCities.filter((city) => !selectedCities.includes(city.name));
-        setFilteredCities(newfilteredCities);
+        // let newfilteredCities = filteredCities.filter((city) => !selectedCities.includes(city.name));
+        // setFilteredCities(newfilteredCities);
         CityList.style.display="none";
       }
     }
@@ -196,7 +212,6 @@ const LandingBody = ({changealltohide}) => {
     if(document.getElementById("bxStateSearch").value !==""){
       if(citySuggestionList){
         citySuggestionList.style.display="block";
-        
       }
       else{
         citySuggestionList.style.display="none";
@@ -213,7 +228,7 @@ const LandingBody = ({changealltohide}) => {
         stateSuggestionList.style.display="block";
       }
       else{
-        return;
+        stateSuggestionList.style.display="none";
       }
     }
     else{
