@@ -23,45 +23,122 @@ const LandingBody = ({changealltohide}) => {
     setSelectedCountry(selectedValue);
     setFilteredStates([]); // Reset filtered states when country changes
   };
+
+  //Handle textinput changes and BackSpace changes
   const handleInputTextChange = (event) => {
-    let text = event.key;
+    let hitKey = event.keyCode;
+    let text = '';
+    let stateNcities = "";
     // Check for backspace key
     if (event.keyCode === 8) {
-      // Handle backspace logic here
-      
-      if(inputText.length<=0){
-        return;
+      if(selectedCountry.length>0){
+        //if we do have selectes state and seleceted cities
+        if(selectedState.length > 0 && selectedCities.length > 0){
+          let tempText = inputText;
+          let x = tempText.split(" ");
+          x = x[1];
+          if(x.endsWith(",")){
+
+          }
+          else{
+            let citiesSelected = x.slice(0, -1);
+            citiesSelected = citiesSelected.split(",");
+            let pickedCity = citiesSelected[-1];
+            cityFiltering(pickedCity);
+
+          }
+        }
+        //if we have only selected state but no cities where selected
+        else if(selectedState.length > 0 && selectedCities.length <= 0){
+          text = inputText.slice(0, -1);
+          setInputText(text);
+          let x = text.split(" ");
+          if(x.length>1){
+            let cityHint = x[-1];
+            cityFiltering(cityHint);
+          }
+          else{
+            return;
+          }
+        }
+        // Case where we don't have both selected state and cities
+        else if(selectedState.length <= 0 && selectedCities.length <= 0 && inputText === ""){
+          return;
+        }
+        else{
+          text = inputText.slice(0, -1);
+          setInputText(text);
+          if(text.length === 0 ){
+            setSelectedState('');
+            const stateSuggestionList = document.getElementById("stateSuggestionList");
+            stateSuggestionList.style.display='none';
+          }
+          else{
+            StateFiltering(text);
+          }
+        }
       }
       else{
-        text = inputText.slice(0, -1);
-        setInputText(text);
-        return;
-      } 
+        alert("Please select country first");
+      }
     }
-    else if(/^[a-zA-Z]+$/.test(text)){
-      setInputText(text);
-      if(selectedState.length===0){
-        // Filter states based on the selected country and input text
-        const countryStates = states.filter(state => state.country_name === selectedCountry);
-        const filteredStates = countryStates.filter(state =>
-          state.name.toLowerCase().startsWith(text.toLowerCase())
-        );
-        setFilteredStates(filteredStates);
-        setSelectedState(''); // Reset selected state when input text changes
-        setFilteredCities([]);
-        ToggleStateSuggestionListDisplay(text); 
-      }  
-      else{
-        let newfilteredCities = filteredCities.filter((city) => !selectedCities.includes(city.name));
-        setFilteredCities(newfilteredCities);
-        ToggleCitySuggestionListDisplay();
+    else if(hitKey>=65 && hitKey <= 90){
+      if(selectedCountry.length>0){
+        if(selectedState.length > 0 && selectedCities.length > 0){
+          text = text + event.key;
+          setInputText(inputText + " " + event.key);
+          cityFiltering(text);
+        }
+        //if we have only selected state but no cities where selected
+        else if(selectedState.length > 0 && selectedCities.length <= 0){
+          text = inputText +  event.key;
+          let x = text.split(" ");
+          let cityHint = x[1];
+          setInputText(text);
+          StateFiltering(selectedState);
+          cityFiltering(cityHint);
+        }
+        // Case where we don't have both selected state and cities
+        else if(selectedState.length <= 0 && selectedCities.length <= 0){
+          text = inputText + event.key;
+          setInputText(text);
+          StateFiltering(text);
+        }
       }
+      else{
+        alert("Please select country first");
+      }      
+    }
+    else if(hitKey === 32){
+      text = inputText + event.key;
+      setInputText(text);
+    }  
+        
+  };
+  function StateFiltering(hint){
+    var countryStates;
+    // Filter states based on the selected country and input text
+    countryStates = states.filter(state => state.country_name === selectedCountry);
+    filteredStates = countryStates.filter(state =>
+    state.name.toLowerCase().startsWith(hint.toLowerCase()));
+    setFilteredStates(filteredStates);
+    ToggleStateSuggestionListDisplay(hint);
+    return filteredStates
+  }
+  function cityFiltering(hint){
+    let stateCities;
+    if(hint.length>0){
+      // Filter states based on the selected country and input text
+    stateCities = cities.filter(city => city.state_name === selectedState);
+    filteredCities = stateCities.filter(city =>
+    city.name.toLowerCase().startsWith(hint.toLowerCase()));
+    setFilteredCities(filteredCities);
     }
     else{
       return;
-    }
-        
-  };
+    }    
+    return filteredCities;
+  }
   const handleStateClick = (stateName) => {
     const stateSuggestionList = document.getElementById("stateSuggestionList");
     // Update the input text with the selected state and add a comma
@@ -134,10 +211,9 @@ const LandingBody = ({changealltohide}) => {
     if(stateSuggestionList){
       if(text !==""){
         stateSuggestionList.style.display="block";
-        
       }
       else{
-        stateSuggestionList.style.display="none";
+        return;
       }
     }
     else{
@@ -177,7 +253,7 @@ const LandingBody = ({changealltohide}) => {
                 ))}
               </select>
               <div id="stateNcity" className={style.stateNcity}>
-                <input type="text" id="bxStateSearch" placeholder='Enter location' onClick={handleSearchBoxClick} className={style.lbinp2} value={inputText} onKeyDown={handleInputTextChange}/>
+                <input type="text" id="bxStateSearch" placeholder='State/City' onClick={handleSearchBoxClick} className={style.lbinp2} value={inputText} onKeyDown={handleInputTextChange}/>
                 <ul id="stateSuggestionList" className={style.stateSuggestionList}>
                   {filteredStates.map(state => (
                     <li key={state.id} className={style.listitem} onClick={() => handleStateClick(state.name)}>
