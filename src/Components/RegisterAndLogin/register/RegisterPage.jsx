@@ -1,242 +1,89 @@
-import axios from "axios";
-import {
-	Box,
-	Heading,
-	FormControl,
-	FormLabel,
-	FormHelperText,
-	Input,
-	InputLeftAddon,
-	InputGroup,
-	Icon,
-	Text,
-	Select,
-	Checkbox,
-	Button,
-	Stack,
-	Divider,
-} from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import style from "./Register.module.css";
-// import { FaSuitcase, FaBook } from "react-icons/fa";
-// import { GiSchoolBag } from "react-icons/gi";
-import { RiWhatsappFill } from "react-icons/ri";
-import { FcGoogle } from "react-icons/fc";
-import NavbarRegister from "../NavAndFooter/NavbarRegister";
-import FooterRegister from "../NavAndFooter/FooterRegister";
-import LeftPane from "./LeftPane";
-import { useDispatch, useSelector } from "react-redux";
-import { registerAPI } from "../storeRegister/actionsRegister";
-import { useNavigate } from "react-router-dom";
+// RegistrationForm.js
+import React, { useState } from 'react';
+import { Input, Button, FormControl, FormLabel, VStack, Box, Text } from '@chakra-ui/react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+// ... (imports)
 
 const RegisterPage = () => {
-	const dispatch = useDispatch();
-	let navigate = useNavigate();
-	// sessionStorage.setItem('emailId', 'abc@gmail.com');
-	// var emailId = sessionStorage.getItem('emaild');
-
-	const [regCreds, setRegCreds] = useState({
-		name: "",
-		emailId: "",
-		mobileNumber: "",
-		password: "",
-		workStatus: ""
+	const [formData, setFormData] = useState({
+	  name: '',
+	  emailId: '',
+	  mobileNumber: '',
 	});
-
-	const handleRegChange = (e) => {
-		const { name, value } = e.target;
-		setRegCreds({
-			...regCreds,
-			[name]: value,
-		});
+  
+	const [registrationStatus, setRegistrationStatus] = useState(null);
+	const [loading, setLoading] = useState(false);
+	const navigate = useNavigate();
+	const handleChange = (e) => {
+	  setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
+  
+	const handleSubmit = async (e) => {
+	  e.preventDefault();
+  
+	  setLoading(true);
+  
+	  try {
+		const response = await axios.post('http://localhost:8081/register', formData);
+  
+		if (response.status === 200) {
+		  setRegistrationStatus(true);
+		  console.log('User registered successfully');
+		  setFormData({
+			name: '',
+			emailId: '',
+			mobileNumber: '',
+		  });
+		  alert('Registration successful! Press OK to proceed to OTP page.');
+		  navigate(`/otp?email=${formData.emailId}`);
 
-	const handleRegFormSubmit = async (e) => {
-		e.preventDefault();
-		dispatch(registerAPI(regCreds));
-
-		try {
-
-			const response = await axios.post(
-				"http://localhost:8081/save",
-				regCreds
-			);
-			const srno = response.data.srno;
-			sessionStorage.setItem('userId', srno);
-			// console.log(response.data);
-			navigate("/otp");
-		} catch (error) {
-			// Handle errors, e.g., display an error message
-			console.error("Registration failed:", error.message);
+		} else {
+		  setRegistrationStatus(false);
+		  console.error('Failed to register user');
 		}
+		
+	  } catch (error) {
+		setRegistrationStatus(false);
+		console.error('Error during registration:', error);
+	  } finally {
+		setLoading(false);
+	  }
 	};
-
-	const { isReg } = useSelector((state) => state.register);
-
-	useEffect(() => {
-		if (isReg) {
-			navigate("/otp");
-		}
-	}, [navigate, isReg]);
-
+  
 	return (
-		<>
-			<NavbarRegister />
-
-			<div className={style.contentRegister}>
-				<LeftPane />
-
-				{/* Right pane */}
-				<div>
-					<div className={style.rightRegister}>
-						<Box className={style.rightRegisterBox}>
-							<Heading size="lg" mb="5">
-								Find a job & grow your career
-							</Heading>
-
-							<form action="submit" onSubmit={handleRegFormSubmit}>
-								<FormControl className={style.rightRegisterForm}>
-									<div>
-										<FormLabel htmlFor="fullName">First Name</FormLabel>
-										<Input
-											id="fullName"
-											type="text"
-											placeholder="What is your name?"
-											name="name"
-											value={regCreds.name}
-											onChange={handleRegChange}
-											isRequired
-										/>
-									</div>
-
-									<div>
-										<FormLabel htmlFor="email">Email id</FormLabel>
-										<Input
-											id="email"
-											type="email"
-											placeholder="Tell us your Email ID"
-											name="emailId"
-
-											value={regCreds.emailId}
-											onChange={handleRegChange}
-											isRequired
-										/>
-										<FormHelperText>
-											We'll send you relevant jobs in your mail
-										</FormHelperText>
-									</div>
-
-									<div>
-										<FormLabel htmlFor="password">Password</FormLabel>
-										<Input
-											id="password"
-											type="password"
-											placeholder="Create a password for your account"
-											name="password"
-											value={regCreds.password}
-											onChange={handleRegChange}
-											isRequired
-										/>
-										<FormHelperText>
-											Minimum 6 characters required
-										</FormHelperText>
-									</div>
-
-									<div>
-										<FormLabel htmlFor="mobileNumber">Mobile Number</FormLabel>
-										<InputGroup>
-											<InputLeftAddon children="+91" bg="white" />
-											<Input
-												type="tel"
-												placeholder="Mobile Number"
-												name="mobileNumber"
-												value={regCreds.mobileNumber}
-												onChange={handleRegChange}
-												isRequired
-											/>
-										</InputGroup>
-										<FormHelperText>
-											Recruiters will call you on this number
-										</FormHelperText>
-									</div>
-
-									<div>
-										<FormLabel htmlFor="workStatus">Work Status</FormLabel>
-										<Select
-											placeholder="Select work status"
-											name="workStatus"
-											value={regCreds.workStatus}
-											onChange={handleRegChange}
-											isRequired
-										>
-											<option value="experienced">I'm Experienced</option>
-											<option value="fresher">I'm a Fresher</option>
-										</Select>
-									</div>
-
-									{/* resume code here pending work..... */}
-
-									<div>
-										<Checkbox
-											size="sm"
-											colorScheme="orange"
-											defaultChecked
-											color="#8d8aad"
-										>
-											Send me important updates on{" "}
-											<Icon as={RiWhatsappFill} color="green" /> WhatsApp
-										</Checkbox>
-									</div>
-
-									<div>
-										<Text color="#8d8aad" fontFamily="sm">
-											By clicking Register, you agree to the{" "}
-											<span className={style.endSpan}>
-												Terms and Conditions
-											</span>{" "}
-											& <span className={style.endSpan}>Privacy Policy</span> of
-											MeriJob.com
-										</Text>
-									</div>
-
-									<div>
-										<Button
-											colorScheme="blue"
-											borderRadius="20"
-											type="submit">
-											Register Now
-										</Button>
-									</div>
-								</FormControl>
-							</form>
-						</Box>
-
-						<Box>
-							<Stack direction="row" h="250px" className={style.orGoogle}>
-								<Divider
-									orientation="vertical"
-									className={style.orGoogleDivider}
-								/>
-								<div className={style.orGoogleDividerOR}>OR</div>
-								<div style={{ display: "flex", flexDirection: "column" }}>
-									<Text>Continue with</Text>
-									<Button
-										leftIcon={<FcGoogle />}
-										colorScheme="blue"
-										variant="outline"
-										borderRadius="20px"
-									>
-										Google
-									</Button>
-								</div>
-							</Stack>
-						</Box>
-					</div>
-				</div>
-			</div>
-			<FooterRegister />
-		</>
+	  <Box>
+		{registrationStatus === true && (
+		  <Text color="green.500" mb="4">
+			Registration successful! Check your email for the OTP.
+		  </Text>
+		)}
+		{registrationStatus === false && (
+		  <Text color="red.500" mb="4">
+			Registration failed. Please try again.
+		  </Text>
+		)}
+  
+		<VStack spacing={4} align="stretch">
+		  <FormControl>
+			<FormLabel>Name</FormLabel>
+			<Input type="text" name="name" value={formData.name} onChange={handleChange} />
+		  </FormControl>
+		  <FormControl>
+			<FormLabel>Email</FormLabel>
+			<Input type="email" name="emailId" value={formData.emailId} onChange={handleChange} />
+		  </FormControl>
+		  <FormControl>
+			<FormLabel>Mobile Number</FormLabel>
+			<Input type="text" name="mobileNumber" value={formData.mobileNumber} onChange={handleChange} />
+		  </FormControl>
+		  <Button colorScheme="teal" onClick={handleSubmit} isLoading={loading}>
+			Register
+		  </Button>
+		</VStack>
+	  </Box>
 	);
-};
-
-export default RegisterPage;
+  };
+  
+  export default RegisterPage;
+  

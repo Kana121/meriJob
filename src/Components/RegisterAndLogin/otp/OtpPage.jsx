@@ -1,95 +1,114 @@
-import React, { useEffect, useState } from "react";
-import NavbarRegister from "../NavAndFooter/NavbarRegister";
-import FooterRegister from "../NavAndFooter/FooterRegister";
-import LeftPane from "../register/LeftPane";
-import style from "./OtpPage.module.css";
-import {
-	Heading,
-	Text,
-	HStack,
-	PinInput,
-	PinInputField,
-	Button,
-} from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { VStack, Input, Button, FormControl, FormLabel, Heading, Text } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 const OtpPage = () => {
-	const [otpEntered, setOtpEntered] = useState();
-	let navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [otp, setOTP] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [verificationResult, setVerificationResult] = useState('');
+  const [showPasswordFields, setShowPasswordFields] = useState(false);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
-	const sendOtp = () => {
-		setTimeout(() => {
-			let otp = Math.floor(1000 + Math.random() * 9000);
-			localStorage.setItem("OTP", JSON.stringify(otp));
-			alert(otp);
-		}, 2000);
-	};
+  const queryString = window.location.search;
+const searchParams = new URLSearchParams(queryString);
+const emailValue = searchParams.get('email');
 
-	useEffect(() => {
-		sendOtp();
-	}, []);
+  const handleVerifyOTP = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post('http://localhost:8081/verify-otp', null, {
+        params: { email: emailValue, otp },
+      });
 
-	useEffect(() => {
-		if (otpEntered === localStorage.getItem("OTP")) {
-			setTimeout(() => {
-				alert("OTP verified!");
-			}, 600);
-			setTimeout(() => {
-				navigate("/home");
-			}, 800);
-		}
-	}, [otpEntered,navigate]);
+      if (response.status === 200) {
+        setVerificationResult(response.data);
 
-	return (
-		<div>
-			<NavbarRegister />
-			<div className={style.otpPanes}>
-				<LeftPane />
+        // If OTP verification is successful, show password fields
+        setShowPasswordFields(true);
+      } else {
+        setVerificationResult(`Error: ${response.data}`);
+      }
+    } catch (error) {
+      console.error('Error during OTP verification:', error);
+      setVerificationResult('An error occurred during OTP verification.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-				<div className={style.otpRightPane}>
-					<div className={style.otpRightPaneDiv}>
-						{/* <Heading size="xl" mb="10">
-							Verify mobile number
-						</Heading>
+  const handlePasswordSubmit = async () => {
+    // Check if password and confirmPassword match
+    if (password !== confirmPassword) {
+      setVerificationResult('Password and Confirm Password do not match.');
+      return;
+    }
+  
+    try {
+      setLoading(true);
+      // Send the password to another endpoint if password and confirmPassword match
+      const response = await axios.post('http://localhost:8081/set-password', null, {
+        params: { email: emailValue, password },
+      });
+  
+      if (response.status === 200) {
+        setVerificationResult('Password set successfully.');
+  
+        // Navigate to the login page upon successful password submission
+        navigate('/login');
+      } else {
+        setVerificationResult(`Error setting password: ${response.data}`);
+      }
+    } catch (error) {
+      console.error('Error setting password:', error);
+      setVerificationResult('An error occurred while setting the password.');
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  return (
+    <VStack align="center" m={5} spacing={4}>
+      <Heading>OTP Verification</Heading>
 
-						<Text fontSize="md" mb="5">
-							Please enter the OTP sent to mobile number{" "}
-							<span>+91 *****856</span>
-						</Text> */}
+      
+      <FormControl>
+        <FormLabel>OTP</FormLabel>
+        <Input type="text" value={otp} onChange={(e) => setOTP(e.target.value)} />
+      </FormControl>
 
-						<HStack>
-							<PinInput placeholder="" onChange={(e) => setOtpEntered(e)}>
-								<PinInputField />
-								<PinInputField />
-								<PinInputField />
-								<PinInputField />
-							</PinInput>
-						</HStack>
+      <Button colorScheme="teal" onClick={handleVerifyOTP} disabled={loading}>
+        {loading ? 'Verifying...' : 'Verify OTP'}
+      </Button>
 
-						<Text fontSize="md" mb="5">
-							Didn't receive an OTP?{" "}
-							<button
-								onClick={sendOtp}
-								style={{ color: "blue", cursor: "pointer" }}
-							>
-								Resend
-							</button>
-						</Text>
+      {verificationResult && <Text>{verificationResult}</Text>}
 
-						<HStack>
-							<Button colorScheme="blue" borderRadius="20px" p="5">
-								Verify
-							</Button>
-							<Button colorScheme="blue" variant="link">
-								Skip
-							</Button>
-						</HStack>
-					</div>
-					<FooterRegister />
-				</div>
-			</div>
-		</div>
-	);
+      {showPasswordFields && (
+        <>
+          <FormControl>
+            <FormLabel>Password</FormLabel>
+            <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>Confirm Password</FormLabel>
+            <Input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </FormControl>
+
+          <Button colorScheme="teal" onClick={handlePasswordSubmit} disabled={loading}>
+        {loading ? 'Setting Password...' : 'Set Password'}
+      </Button>
+        </>
+      )}
+    </VStack>
+  );
 };
 
 export default OtpPage;
