@@ -10,23 +10,14 @@ import {
   Alert,
   AlertIcon,
   Container,
-  Center,
-  Flex,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 
 const CompanyLoginForm = () => {
-  const [isEyeOpen, setIsEyeOpen] = useState(false);
-  const ToggleEyeIcon = (icon) =>{
-    setIsEyeOpen((prevIsEyeOpen) => !prevIsEyeOpen);
-  }
   const navigate = useNavigate(); // Initialize useNavigate
   const [companyLogin, setCompanyLogin] = useState({
-    employerID:'',
-    registeredEmail: '',
+    contactEmail: '',
     password: '',
   });
   const [formErrors, setFormErrors] = useState({});
@@ -44,12 +35,9 @@ const CompanyLoginForm = () => {
 
   const validateForm = () => {
     const errors = {};
-    if (!companyLogin.employerID.trim()) {
-      errors.registeredEmail = 'Employer ID is required';
-    }
 
-    if (!companyLogin.registeredEmail.trim()) {
-      errors.registeredEmail = 'Email is required';
+    if (!companyLogin.contactEmail.trim()) {
+      errors.contactEmail = 'Email is required';
     }
 
     if (!companyLogin.password.trim()) {
@@ -67,7 +55,7 @@ const CompanyLoginForm = () => {
         console.log('Server Response:', response.data);
         setIsLoginSuccess(true);
         setLoginError(null);
-        
+        sessionStorage.setItem('companyId', response.data.srno);
         // Use navigate to redirect upon successful login
         navigate('/company-home');
       } catch (error) {
@@ -80,9 +68,9 @@ const CompanyLoginForm = () => {
 
   return (
     <Container>
-      <Box boxShadow='md' p='6' rounded='md' >
-        <Heading as="h2" textAlign='center' size="xl" mb={4}>
-          Employer Login
+      <Box p={4}>
+        <Heading as="h2" size="xl" mb={4}>
+          Company Login
         </Heading>
         {loginError && (
           <Alert status="error" mb={4}>
@@ -96,29 +84,20 @@ const CompanyLoginForm = () => {
             Login successful!
           </Alert>
         )}
-        <form style={{textAlign:"center"}} onSubmit={(e) => e.preventDefault()}>
-          <FormControl mb={4} isInvalid={!!formErrors.registeredEmail}>
-            <FormLabel>Employer ID</FormLabel>
-            <Input type="text" name="employerID" value={companyLogin.employerID} onChange={handleChange} />
-            <FormErrorMessage>{formErrors.registeredEmail}</FormErrorMessage>
-          </FormControl>
-
-          <FormControl mb={4} isInvalid={!!formErrors.registeredEmail}>
-            <FormLabel>Registered Email</FormLabel>
-              <Input type="email" name="registeredEmail" value={companyLogin.registeredEmail} onChange={handleChange} />
-              <FormErrorMessage>{formErrors.registeredEmail}</FormErrorMessage>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <FormControl mb={4} isInvalid={!!formErrors.contactEmail}>
+            <FormLabel>Contact Email</FormLabel>
+            <Input type="email" name="contactEmail" value={companyLogin.contactEmail} onChange={handleChange} />
+            <FormErrorMessage>{formErrors.contactEmail}</FormErrorMessage>
           </FormControl>
 
           <FormControl mb={4} isInvalid={!!formErrors.password}>
             <FormLabel>Password</FormLabel>
-            <Flex alignItems='center' justifyContent='flex-start'>
-              <Input type={isEyeOpen ? 'text' : 'password'} name="password" value={companyLogin.password} onChange={handleChange} />
-              <FontAwesomeIcon id='FaFaEye' style={{marginLeft:'-5.5%',cursor:'pointer',zIndex:1}} onClick={(event) => ToggleEyeIcon(event)} icon={isEyeOpen ? faEye : faEyeSlash} />
-            </Flex>
+            <Input type="password" name="password" value={companyLogin.password} onChange={handleChange} />
             <FormErrorMessage>{formErrors.password}</FormErrorMessage>
           </FormControl>
 
-          <Button type="submit" colorScheme="teal" style={{backgroundColor:"rgb(69,126,255)"}} onClick={handleLogin}>
+          <Button type="submit" colorScheme="teal" onClick={handleLogin}>
             Login
           </Button>
         </form>
