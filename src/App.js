@@ -63,9 +63,7 @@ function App() {
 				<Route path="/employer-login" element={<CompanyLoginForm />}></Route>
 				<Route
 					path="/company-home"
-					element={
-							<CompanyHome />
-					}
+					element={<CompanyHome />}
 				/>
 				<Route path="/job-postings" element={<JobPostings />}></Route>
 
