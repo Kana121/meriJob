@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import style from "./landingbody.module.css"
 import JobList from './JobList'
 import LandingPageBanner from './LandingPageBanner'
@@ -31,7 +31,6 @@ const LandingBody = ({changealltohide}) => {
   const handleInputTextChange = (event) => {
     let hitKey = event.keyCode;
     let text = '';
-    let stateNcities = "";
     // Check for backspace key
     if (event.keyCode === 8) {
       if(selectedCountry.length>0){
@@ -93,6 +92,7 @@ const LandingBody = ({changealltohide}) => {
         alert("Please select country first");
       }
     }
+    //Check for the key entered is from alphabet
     else if(hitKey>=65 && hitKey <= 90){
       if(selectedCountry.length>0){
         if(selectedState.length > 0 && selectedCities.length > 0){
@@ -183,8 +183,6 @@ const LandingBody = ({changealltohide}) => {
     if(selectedCities.length===0){
       setSelectedCities(City);
       setInputText(`${selectedState}-${cityName}`);
-      // let newfilteredCities = filteredCities.filter((city) => city.name !==cityName && city.state_name === selectedState);
-      // setFilteredCities(newfilteredCities);
       CityList.style.display="none";
     }
     else{
@@ -193,16 +191,12 @@ const LandingBody = ({changealltohide}) => {
         selectedCities = selectedCities.filter((city) => city !== cityName);
         setInputText(`${selectedState}-${selectedCities}`)
         setSelectedCities(selectedCities);
-        // let newfilteredCities = filteredCities.filter((city) => !selectedCities.includes(city.name));
-        // setFilteredCities(newfilteredCities);
         CityList.style.display="none";
       }
       else{
         selectedCities = [...selectedCities, cityName];
         setInputText(`${selectedState}-${selectedCities}`)
         setSelectedCities(selectedCities);
-        // let newfilteredCities = filteredCities.filter((city) => !selectedCities.includes(city.name));
-        // setFilteredCities(newfilteredCities);
         CityList.style.display="none";
       }
     }
