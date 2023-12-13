@@ -57,6 +57,7 @@ function App() {
 				/>
 				<Route path="/" element={<LandingNavbar />}></Route>
 				<Route path="/employer" element={<Empnav />}></Route>
+				
 				<Route path="/employer-registration" element={<CompanyRegisterForm />}></Route>
 				<Route path="/employer-otp" element={<CompanyOtp />}></Route>
 				
