@@ -1,13 +1,13 @@
 import React from 'react'
-import 
-{ BsGrid1X2Fill, BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, 
-  BsListCheck, BsMenuButtonWideFill, BsFillGearFill}
- from 'react-icons/bs'
-import { Link } from 'react-router-dom'
+import { BsHouseDoor, BsFillGrid3X3GapFill, BsListCheck, BsFillGearFill} from 'react-icons/bs';
+import { RiUserSearchLine } from "react-icons/ri";
+import { FaAngellist } from "react-icons/fa";
+import { AiOutlineMessage } from "react-icons/ai";
+import { Link } from 'react-router-dom';
 
 function Sidebar({openSidebarToggle, OpenSidebar}) {
   return (
-    <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive": ""}>
+    <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive": "sidebar"}>
         <div className='sidebar-title'>
             <div className='sidebar-brand'>
                  Duniya Job
@@ -18,12 +18,12 @@ function Sidebar({openSidebarToggle, OpenSidebar}) {
         <ul className='sidebar-list'>
             <li className='sidebar-list-item'>
                 <Link to="/company-home">
-                    <BsGrid1X2Fill className='icon'/> Home
+                    <BsHouseDoor className='icon'/> Home
                 </Link>
             </li>
             <li className='sidebar-list-item'>
                 <Link to="">
-                    <BsFillArchiveFill className='icon'/> Search Candidates
+                    <RiUserSearchLine className='icon'/> Search Candidates
                 </Link>
             </li>
             <li className='sidebar-list-item'>
@@ -33,7 +33,7 @@ function Sidebar({openSidebarToggle, OpenSidebar}) {
             </li>
             <li className='sidebar-list-item'>
                 <Link to="">
-                    <BsPeopleFill className='icon'/> Shortlist
+                    <FaAngellist className='icon'/> Shortlist
                 </Link>
             </li>
             <li className='sidebar-list-item'>
@@ -43,12 +43,12 @@ function Sidebar({openSidebarToggle, OpenSidebar}) {
             </li>
             <li className='sidebar-list-item'>
                 <Link to="">
-                    <BsMenuButtonWideFill className='icon'/> Massage
+                    <AiOutlineMessage className='icon'/> Message
                 </Link>
             </li>
             <li className='sidebar-list-item'>
                 <Link to="">
-                    <BsFillGearFill className='icon'/> Setting
+                    <BsFillGearFill className='icon'/> Settings
                 </Link>
             </li>
         </ul>
