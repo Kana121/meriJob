@@ -50,7 +50,7 @@ const JobList = () => {
       </Box>
 
       {/* Right side - Job Description */}
-      <Box flex="2" p="4">
+      <Box flex="2" p="4" textAlign='center' borderLeft='2px solid black'>
         <Text fontSize="lg" fontWeight="bold">
           Job Description
         </Text>
